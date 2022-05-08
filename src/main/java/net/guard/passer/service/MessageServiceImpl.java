@@ -3,6 +3,7 @@ package net.guard.passer.service;
 import net.guard.passer.entity.Message;
 import net.guard.passer.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,8 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public List<Message> getAllMessages() {
-        return messageRepository.findAll();
+        //Сортировка по названию столбца в бд, хотя хз. Работает что с Id, что с id.
+        return messageRepository.findAll(Sort.by("id"));
     }
 
     @Override

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,14 +10,30 @@
           crossorigin="anonymous">
 </head>
 <body>
+
 <div class="container my-2">
     <br><br>
-    <form action="#" th:action="@{/messages/save}" th:object="${oneMess}">
+    <h1>Write/edit message</h1>
+    <br><br>
+    <form action="#" th:action="@{/messages/save}" th:object="${oneMess}"
+          style="max-width: 600px; margin: 0 auto;">
 
         <input type="hidden" th:field="*{id}" />
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Text: </label>
+                <div class="col-6">
+                    <input type="text" th:field="*{text}" placeholder="text" class="form-control" required minlength="0" maxlength="250">
+                </div>
+            </div>
 
-        <input type="text" th:field="*{text}" class="form-control mb-4 col-4">
-        <input type="text" th:field="*{tag}" class="form-control mb-4 col-4">
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Tag: </label>
+                <div class="col-6">
+                    <input type="text" th:field="*{tag}" placeholder="tag" class="form-control" required minlength="0" maxlength="250">
+                </div>
+            </div>
+        </div>
 
         <button type="submit" class="btn btn-info col-2">Enter</button>
     </form>

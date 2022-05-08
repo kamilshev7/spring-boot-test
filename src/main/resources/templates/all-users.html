@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      >
+>
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -24,38 +24,34 @@
                 <button type="submit" class="btn btn-danger">Logout</button>
             </form>
         </div>
+        <br><br>
+        <a th:href="@{/messages}" class="btn btn-primary btn-sm mb-3">Return to chat</a>
     </div>
-    <br>
-    <form th:action="@{/messages/addHere}">
-        <input type="text" name="text" placeholder="White text" class="form-control mb-4 col-4">
-        <input type="text" name="tag" placeholder="tag" class="form-control mb-4 col-4">
-        <button type="submit" class="btn btn-info col-2">Send</button>
-    </form>
+
     <br><br>
-    <a th:href="@{/messages/add}" class="btn btn-primary btn-sm mb-3">Write new message</a>
-    <div class="container text-right">
-        <a th:href="@{/users}" class="btn btn-info">List of users</a>
-    </div>
-    <br>
-    <div th:if="${not #lists.isEmpty(allMes)}">
-        <h1>Messages</h1>
+    <div th:if="${not #lists.isEmpty(allUsers)}">
+        <h1>Users</h1>
         <table border="1" class="table table-striped table-responsive-md">
             <tr>
                 <th>№</th>
-                <th>id</th>
-                <th>Tag</th>
-                <th>text</th>
-                <th sec:authorize="hasAnyAuthority('ADMIN','EDITOR')">Actions</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">id</th>
+                <th>Username</th>
+                <th>E-mail</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">Role(s)</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">Enable</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">Actions</th>
             </tr>
 
-            <tr th:each="Mes, temp : ${allMes}">
+            <tr th:each="User, temp : ${allUsers}">
                 <th th:text="${temp.count}"></th>
-                <td th:text="${Mes.getId()}"></td>
-                <td th:text="${Mes.getTag()}"></td>
-                <td th:text="${Mes.getText()}"></td>
-                <td sec:authorize="hasAnyAuthority('ADMIN','EDITOR')">
-                    <a th:href="@{/messages/update{id}(id=${Mes.getId()})}" class="btn btn-primary">Edit</a>
-                    <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/messages/delete{id}(id=${Mes.getId()})}" class="btn btn-danger">X</a>
+                <td sec:authorize="hasAnyAuthority('ADMIN')" th:text="${User.getId()}"></td>
+                <td th:text="${User.getUsername()}"></td>
+                <td th:text="${User.getEmail()}"></td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')" th:text="${User.getRoles()}"></td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')" th:text="${User.isEnabled()}"></td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a th:href="@{/users/update{id}(id=${User.getId()})}" class="btn btn-primary">Edit</a>
+                    <a th:href="@{/users/delete{id}(id=${User.getId()})}" class="btn btn-danger">X</a>
                 </td>
             </tr>
         </table>
